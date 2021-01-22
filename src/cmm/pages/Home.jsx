@@ -75,14 +75,14 @@ const useStyles = makeStyles((theme) => ({
 
 const tiers = [
   {
-    title: 'Free',
+    title: '학습자',
     price: '0',
     description: ['10 users included', '2 GB of storage', 'Help center access', 'Email support'],
-    buttonText: 'Sign up for free',
+    buttonText: '학습자 로그인',
     buttonVariant: 'outlined',
   },
   {
-    title: 'Pro',
+    title: '교강사',
     subheader: 'Most popular',
     price: '15',
     description: [
@@ -91,11 +91,11 @@ const tiers = [
       'Help center access',
       'Priority email support',
     ],
-    buttonText: 'Get started',
+    buttonText: '교강사 접속',
     buttonVariant: 'contained',
   },
   {
-    title: 'Enterprise',
+    title: '관리자',
     price: '30',
     description: [
       '50 users included',
@@ -103,7 +103,7 @@ const tiers = [
       'Help center access',
       'Phone & email support',
     ],
-    buttonText: 'Contact us',
+    buttonText: '관리자 접속',
     buttonVariant: 'outlined',
   },
 ];
@@ -126,7 +126,7 @@ const footers = [
   },
 ];
 
-export default function Pricing() {
+export default function Home() {
   const classes = useStyles();
 
   return (
@@ -156,7 +156,7 @@ export default function Pricing() {
       {/* Hero unit */}
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
         <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-          Pricing
+          접속하기
         </Typography>
         <Typography variant="h5" align="center" color="textSecondary" component="p">
           Quickly build an effective pricing table for your potential customers with this layout.
