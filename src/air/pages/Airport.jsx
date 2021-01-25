@@ -16,7 +16,7 @@ export const airportReducer = ( state = [], action ) => {
 export const airportSearch = () => dispatch => {
     axios.get(`https://raw.githubusercontent.com/mwgg/Airports/master/airports.json`)
     .then(response => {
-        dispatch(response.data)
+        dispatch(getAirports(response.data))
     }).catch(error => {throw error})
 }
 
@@ -69,7 +69,14 @@ export default function Airport() {
         }
     })
 
-    return (<div>
+    const handleInput = e => searchAirports( e.target.value )
+    return (<div style={{ outline: 'none', border: 0 }}>
         <h1>공항 검색</h1>
+            <div style={{ outline: 'none', border: 0 }}>
+                <div style={{ width: '100%', display: 'block' }}>
+                    <input type='text' style={{ width: '50%' }} placeholder='공항이름, 코드번호, 도시명으로 검색 가능' 
+                           className='Search' onChange={ e => handleInput(e) }/>
+                </div>
+            </div>
     </div>)
 }
