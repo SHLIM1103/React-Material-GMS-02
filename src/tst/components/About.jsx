@@ -1,6 +1,6 @@
 import React from 'react'
 import { PageTemplate, AboutMenu } from './index'
-import { Company, History, Location, Services } from './aboutMenu'
+import { Company, History, Location, Services } from './aboutMenu/index'
 import { Route } from 'react-router-dom'
 
 export default function About({ match }) {
