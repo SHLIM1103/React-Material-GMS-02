@@ -1,14 +1,10 @@
-import './App.css';
-/* import { Main } from './tst/pages' */
-import { Airport } from './air/pages/index'
+import { Airport } from './air/pages/Airport'
 import { createStore, applyMiddleware } from 'redux'
-import { airportReducer } from './air/pages/Airport'
-import { combineReducers } from 'redux'
-import thunk from 'redux-thunk'
+import { combineReducers } from "redux"
 import { Provider } from'react-redux'
+import thunk from 'redux-thunk'
 
-const rootReducer = combineReducers({ airportReducer })
-
+const rootReducer = combineReducers({})
 export default function App() {
   return (
     <Provider store = { createStore(rootReducer, applyMiddleware(thunk)) }>

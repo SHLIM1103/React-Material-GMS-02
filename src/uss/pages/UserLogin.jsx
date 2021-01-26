@@ -1,17 +1,20 @@
-import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { debounce } from 'throttle-debounce'
+import axios from 'axios'
+import Avatar from '@material-ui/core/Avatar'
+import Button from '@material-ui/core/Button'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import TextField from '@material-ui/core/TextField'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Checkbox from '@material-ui/core/Checkbox'
+import Link from '@material-ui/core/Link'
+import Paper from '@material-ui/core/Paper'
+import Box from '@material-ui/core/Box'
+import Grid from '@material-ui/core/Grid'
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
+import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/core/styles'
 
 function Copyright() {
   return (
@@ -23,7 +26,7 @@ function Copyright() {
       {new Date().getFullYear()}
       {'.'}
     </Typography>
-  );
+  )
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -55,11 +58,46 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-}));
+}))
 
-export default function StuLogin() {
-  const classes = useStyles();
+const POST_AUTH = '/student/POST_AUTH'
+const authAction = data => ({ type: POST_AUTH, payload: data })
+export const authReducer = ( state = {}, action ) => {
+  switch(action.type) {
+    case POST_AUTH: return action.payload
+    default: return state
+  }
+}
 
+const postAuth = data => dispatch => {
+  alert(`로그인 정보는 ${data.userid}, ${data.password} 입니다`)
+  axios.post(`/students/login`, data)
+  .then(res => {
+    if(res.data.message === `SUCCESS`) {
+      sessionStorage.setItem(`userid`, res.data.userid)
+      sessionStorage.setItem(`password`, res.data.password)
+      sessionStorage.setItem(`name`, res.data.name)
+    }
+    dispatch(authAction(res.data))
+  })
+  .catch(err => { throw(err) } )
+}
+
+export default function SignInSide() {
+  const [ userid, setUserid ] = useState('')
+  const [ password, setPassword ] = useState('')
+  const classes = useStyles()
+  const onClickLoginBtn = e => {
+    e.preventDefault()
+    postAuth({userid, password})
+  }
+  const onChangeUserid = e => {
+    setUserid(e.target.value)
+  }
+
+  const onChangePassword = e => {
+    setPassword(e.target.value)
+  }
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -83,7 +121,8 @@ export default function StuLogin() {
               name="email"
               autoComplete="email"
               autoFocus
-            />
+              onChange={ onChangeUserid }
+              />
             <TextField
               variant="outlined"
               margin="normal"
@@ -94,6 +133,7 @@ export default function StuLogin() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={ onChangePassword }
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -105,6 +145,7 @@ export default function StuLogin() {
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick= { () => onClickLoginBtn() }
             >
               Sign In
             </Button>
@@ -127,5 +168,5 @@ export default function StuLogin() {
         </div>
       </Grid>
     </Grid>
-  );
+  )
 }
